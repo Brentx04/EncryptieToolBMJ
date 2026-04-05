@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleutels Genereren – EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a href="index.html">Home</a>
+    <a class="active" href="key-generation.html">Sleutels Genereren</a>
+    <a href="aes.html">AES</a>
+    <a href="rsa.html">RSA</a>
+    <a href="hash.html">Hashing</a>
+    <a href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>Sleutels Genereren</h2>
+
+    <div class="alert alert-info">
+        <strong>AES</strong> gebruikt één symmetrische sleutel — zender en ontvanger gebruiken dezelfde sleutel.
+        <strong>RSA</strong> gebruikt een sleutelpaar: een publieke sleutel (mag je delen) en een privésleutel (geheim houden!).
+        Sleutels worden niet opgeslagen op de server.
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h3>AES Sleutel + IV</h3>
+                <p>Kies een sleutelgrootte. 256 bits is aanbevolen.</p>
+                <label>Sleutelgrootte</label>
+                <select id="aesKeySize">
+                    <option value="128">128 bits</option>
+                    <option value="192">192 bits</option>
+                    <option value="256" selected>256 bits (aanbevolen)</option>
+                </select>
+                <button id="generateAesBtn" class="btn-primary" onclick="generateAes()">Genereer AES Sleutel</button>
+
+                <div id="aesError" class="alert alert-error" style="display:none"></div>
+
+                <div id="aesResult" style="display:none">
+                    <div class="result-box">
+                        <label>Sleutel (Base64)</label>
+                        <textarea id="aesKeyBase64" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('aesKeyBase64')">Kopieer</button>
+                    </div>
+                    <div class="result-box">
+                        <label>Sleutel (Hex)</label>
+                        <textarea id="aesKeyHex" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('aesKeyHex')">Kopieer</button>
+                    </div>
+                    <div class="result-box">
+                        <label>IV (Base64)</label>
+                        <textarea id="aesIvBase64" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('aesIvBase64')">Kopieer</button>
+                    </div>
+                    <div class="result-box">
+                        <label>IV (Hex)</label>
+                        <textarea id="aesIvHex" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('aesIvHex')">Kopieer</button>
+                    </div>
+                    <button class="btn-outline" onclick="downloadAesKey()">Download als .txt</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <h3>RSA Sleutelpaar</h3>
+                <p>Kies een sleutelgrootte. 2048 bits of hoger is aanbevolen.</p>
+                <label>Sleutelgrootte</label>
+                <select id="rsaKeySize">
+                    <option value="1024">1024 bits (niet aanbevolen)</option>
+                    <option value="2048" selected>2048 bits (aanbevolen)</option>
+                    <option value="4096">4096 bits</option>
+                </select>
+                <button id="generateRsaBtn" class="btn-primary" onclick="generateRsa()">Genereer RSA Sleutelpaar</button>
+
+                <div id="rsaError" class="alert alert-error" style="display:none"></div>
+
+                <div id="rsaResult" style="display:none">
+                    <div class="result-box">
+                        <label>Publieke Sleutel (PEM)</label>
+                        <textarea id="rsaPublicPem" class="monospace" rows="6" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('rsaPublicPem')">Kopieer</button>
+                        <button class="btn-outline" onclick="downloadRsaPublic()">Download public-key.pem</button>
+                    </div>
+                    <div class="alert alert-error">Deel NOOIT je privésleutel!</div>
+                    <div class="result-box">
+                        <label>Privésleutel (PEM)</label>
+                        <textarea id="rsaPrivatePem" class="monospace" rows="8" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('rsaPrivatePem')">Kopieer</button>
+                        <button class="btn-outline" onclick="downloadRsaPrivate()">Download private-key.pem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script src="js/key-generation.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AES Versleuteling – EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a href="index.html">Home</a>
+    <a href="key-generation.html">Sleutels Genereren</a>
+    <a class="active" href="aes.html">AES</a>
+    <a href="rsa.html">RSA</a>
+    <a href="hash.html">Hashing</a>
+    <a href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>AES Versleuteling</h2>
+
+    <div class="alert alert-info">
+        <strong>Wat is AES?</strong> Advanced Encryption Standard — symmetrisch algoritme, dezelfde sleutel voor versleutelen en ontsleutelen.
+        <strong>CBC</strong>: aanbevolen. <strong>ECB</strong>: eenvoudig maar minder veilig. <strong>GCM</strong>: geauthenticeerde encryptie.
+        Genereer een sleutel via <a href="key-generation.html">Sleutels Genereren</a>.
+    </div>
+
+    <div data-tabs="aes-tabs">
+        <div class="tabs">
+            <button class="active">Tekst</button>
+            <button>Bestand</button>
+        </div>
+
+        <div class="tab-panel active">
+            <div class="card">
+                <label>Invoertekst</label>
+                <textarea id="textInput" rows="5" placeholder="Voor encryptie: originele tekst. Voor decryptie: Base64-versleutelde tekst."></textarea>
+                <div class="row">
+                    <div class="col">
+                        <label>Sleutel (Base64)</label>
+                        <input id="textKey" type="text" class="monospace" placeholder="Base64 sleutel..." />
+                    </div>
+                    <div class="col">
+                        <label>IV (Base64)</label>
+                        <input id="textIv" type="text" class="monospace" placeholder="Base64 IV..." />
+                    </div>
+                </div>
+                <label>Modus</label>
+                <select id="textMode">
+                    <option value="CBC" selected>CBC (aanbevolen)</option>
+                    <option value="ECB">ECB</option>
+                    <option value="GCM">GCM</option>
+                </select>
+                <div>
+                    <button id="encryptTextBtn" class="btn-success" onclick="encryptText()">Versleutelen</button>
+                    <button id="decryptTextBtn" class="btn-outline" onclick="decryptText()">Ontsleutelen</button>
+                </div>
+
+                <div id="textError" class="alert alert-error" style="display:none"></div>
+
+                <div id="textResultCard" style="display:none">
+                    <div class="result-box">
+                        <label>Resultaat</label>
+                        <textarea id="textResult" class="monospace" rows="5" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('textResult')">Kopieer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-panel">
+            <div class="card">
+                <label>Bestand (max 10 MB)</label>
+                <input id="fileInput" type="file" />
+                <small>Bij versleutelen wordt een .enc-bestand gegenereerd. Bij ontsleutelen upload je het .enc-bestand.</small>
+                <div class="row">
+                    <div class="col">
+                        <label>Sleutel (Base64)</label>
+                        <input id="fileKey" type="text" class="monospace" placeholder="Base64 sleutel..." />
+                    </div>
+                    <div class="col">
+                        <label>IV (Base64)</label>
+                        <input id="fileIv" type="text" class="monospace" placeholder="Base64 IV..." />
+                    </div>
+                </div>
+                <label>Modus</label>
+                <select id="fileMode">
+                    <option value="CBC" selected>CBC</option>
+                    <option value="ECB">ECB</option>
+                    <option value="GCM">GCM</option>
+                </select>
+                <div>
+                    <button id="encryptFileBtn" class="btn-success" onclick="encryptFile()">Versleutelen &amp; Downloaden</button>
+                    <button id="decryptFileBtn" class="btn-outline" onclick="decryptFile()">Ontsleutelen &amp; Downloaden</button>
+                </div>
+                <div id="fileError" class="alert alert-error" style="display:none"></div>
+                <div id="fileSuccess" class="alert alert-success" style="display:none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script src="js/aes.js"></script>
+</body>
+</html>

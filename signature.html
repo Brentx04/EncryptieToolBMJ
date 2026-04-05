@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digitale Handtekening – EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a href="index.html">Home</a>
+    <a href="key-generation.html">Sleutels Genereren</a>
+    <a href="aes.html">AES</a>
+    <a href="rsa.html">RSA</a>
+    <a href="hash.html">Hashing</a>
+    <a class="active" href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>Digitale Handtekening (RSA + SHA-256)</h2>
+
+    <div class="alert alert-info">
+        <strong>Wat is een digitale handtekening?</strong>
+        Met een privésleutel kun je data ondertekenen. Iedereen met de bijbehorende publieke sleutel kan bewijzen dat de data
+        van jou afkomstig is en niet gewijzigd is. Gebruikt RSA met SHA-256 (PKCS#1 v1.5 padding).
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h3>Data Ondertekenen</h3>
+                <label>Te ondertekenen tekst</label>
+                <textarea id="signData" rows="4" placeholder="Voer tekst in..."></textarea>
+                <div class="alert alert-error">Deel NOOIT je privésleutel!</div>
+                <label>RSA Privésleutel (PEM)</label>
+                <textarea id="signPrivateKey" class="monospace" rows="8"
+                    placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"></textarea>
+                <button id="signBtn" class="btn-primary" onclick="signData()">Ondertekenen</button>
+                <div id="signError" class="alert alert-error" style="display:none"></div>
+                <div id="signResultCard" style="display:none">
+                    <div class="result-box">
+                        <label>Handtekening (Base64)</label>
+                        <textarea id="signResult" class="monospace" rows="4" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('signResult')">Kopieer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <h3>Handtekening Verifieren</h3>
+                <label>Originele tekst</label>
+                <textarea id="verifyData" rows="4" placeholder="Voer originele tekst in..."></textarea>
+                <label>Handtekening (Base64)</label>
+                <textarea id="verifySignature" class="monospace" rows="3" placeholder="Base64 handtekening..."></textarea>
+                <label>RSA Publieke Sleutel (PEM)</label>
+                <textarea id="verifyPublicKey" class="monospace" rows="6"
+                    placeholder="-----BEGIN RSA PUBLIC KEY-----&#10;...&#10;-----END RSA PUBLIC KEY-----"></textarea>
+                <button id="verifyBtn" class="btn-primary" onclick="verifySignature()">Verifieer handtekening</button>
+                <div id="verifyError" class="alert alert-error" style="display:none"></div>
+                <div id="verifyResult" class="alert" style="display:none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script src="js/signature.js"></script>
+</body>
+</html>
