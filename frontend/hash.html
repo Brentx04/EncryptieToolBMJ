@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hashing – EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a href="index.html">Home</a>
+    <a href="key-generation.html">Sleutels Genereren</a>
+    <a href="aes.html">AES</a>
+    <a href="rsa.html">RSA</a>
+    <a class="active" href="hash.html">Hashing</a>
+    <a href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>Hashing &amp; Integriteitsverificatie</h2>
+
+    <div class="alert alert-info">
+        <strong>Wat is hashing?</strong> Een hashfunctie zet data om in een vaste reeks tekens. Dezelfde invoer geeft altijd dezelfde hash.
+        Hashes zijn eenrichtings: de originele data is niet terug te halen.
+        <strong>HMAC</strong> voegt een geheime sleutel toe voor authenticatie.
+    </div>
+
+    <div data-tabs="hash-tabs">
+        <div class="tabs">
+            <button class="active">Tekst</button>
+            <button>Bestand</button>
+            <button>HMAC</button>
+        </div>
+
+        <div class="tab-panel active">
+            <div class="card">
+                <div id="hashTextWarning" class="alert alert-warning" style="display:none"></div>
+                <label>Invoertekst</label>
+                <textarea id="hashTextInput" rows="4" placeholder="Voer tekst in..."></textarea>
+                <label>Algoritme</label>
+                <select id="hashTextAlgo" onchange="checkHashWarning('hashTextAlgo','hashTextWarning')">
+                    <option value="MD5">MD5 (onveilig)</option>
+                    <option value="SHA1">SHA-1 (zwak)</option>
+                    <option value="SHA256" selected>SHA-256 (aanbevolen)</option>
+                    <option value="SHA384">SHA-384</option>
+                    <option value="SHA512">SHA-512</option>
+                </select>
+                <button id="hashTextBtn" class="btn-primary" onclick="hashText()">Hash berekenen</button>
+                <div id="hashTextError" class="alert alert-error" style="display:none"></div>
+                <div id="hashTextResultCard" style="display:none">
+                    <div class="result-box">
+                        <label id="hashTextResultLabel">Hash</label>
+                        <textarea id="hashTextResult" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('hashTextResult')">Kopieer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-panel">
+            <div class="card">
+                <div id="hashFileWarning" class="alert alert-warning" style="display:none"></div>
+                <label>Bestand (max 10 MB)</label>
+                <input id="hashFileInput" type="file" />
+                <label>Algoritme</label>
+                <select id="hashFileAlgo" onchange="checkHashWarning('hashFileAlgo','hashFileWarning')">
+                    <option value="MD5">MD5 (onveilig)</option>
+                    <option value="SHA1">SHA-1 (zwak)</option>
+                    <option value="SHA256" selected>SHA-256 (aanbevolen)</option>
+                    <option value="SHA384">SHA-384</option>
+                    <option value="SHA512">SHA-512</option>
+                </select>
+                <label>Verwachte hash (optioneel – voor verificatie)</label>
+                <input id="hashFileExpected" type="text" class="monospace" placeholder="Plak hier de verwachte hash..." />
+                <button id="hashFileBtn" class="btn-primary" onclick="hashFile()">Hash berekenen</button>
+                <div id="hashFileError" class="alert alert-error" style="display:none"></div>
+                <div id="hashFileResultCard" style="display:none">
+                    <div class="result-box">
+                        <label id="hashFileResultLabel">Hash</label>
+                        <textarea id="hashFileResult" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('hashFileResult')">Kopieer</button>
+                    </div>
+                </div>
+                <div id="hashFileMatchResult" class="alert" style="display:none"></div>
+            </div>
+        </div>
+
+        <div class="tab-panel">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h3>HMAC Genereren</h3>
+                        <label>Bericht</label>
+                        <textarea id="hmacGenMsg" rows="3" placeholder="Bericht..."></textarea>
+                        <label>Sleutel (Base64)</label>
+                        <input id="hmacGenKey" type="text" class="monospace" placeholder="Base64 sleutel..." />
+                        <label>Algoritme</label>
+                        <select id="hmacGenAlgo">
+                            <option value="SHA256" selected>HMAC-SHA256 (aanbevolen)</option>
+                            <option value="SHA384">HMAC-SHA384</option>
+                            <option value="SHA512">HMAC-SHA512</option>
+                        </select>
+                        <button id="hmacGenBtn" class="btn-primary" onclick="generateHmac()">HMAC genereren</button>
+                        <div id="hmacGenError" class="alert alert-error" style="display:none"></div>
+                        <div id="hmacGenResultCard" style="display:none">
+                            <div class="result-box">
+                                <label>Gegenereerde HMAC (Base64)</label>
+                                <textarea id="hmacGenResult" class="monospace" rows="2" readonly></textarea>
+                                <button class="btn-outline" onclick="copyText('hmacGenResult')">Kopieer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <h3>HMAC Verifieren</h3>
+                        <label>Bericht</label>
+                        <textarea id="hmacVerMsg" rows="3" placeholder="Bericht..."></textarea>
+                        <label>Sleutel (Base64)</label>
+                        <input id="hmacVerKey" type="text" class="monospace" placeholder="Base64 sleutel..." />
+                        <label>Algoritme</label>
+                        <select id="hmacVerAlgo">
+                            <option value="SHA256" selected>HMAC-SHA256</option>
+                            <option value="SHA384">HMAC-SHA384</option>
+                            <option value="SHA512">HMAC-SHA512</option>
+                        </select>
+                        <label>Te verifiëren HMAC (Base64)</label>
+                        <input id="hmacVerValue" type="text" class="monospace" placeholder="Base64 HMAC..." />
+                        <button id="hmacVerBtn" class="btn-primary" onclick="verifyHmac()">Verifieer HMAC</button>
+                        <div id="hmacVerError" class="alert alert-error" style="display:none"></div>
+                        <div id="hmacVerResult" class="alert" style="display:none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <small>&copy; 2026 EncryptieTool</small>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script src="js/hash.js"></script>
+</body>
+</html>

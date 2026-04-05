@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSA Versleuteling – EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a href="index.html">Home</a>
+    <a href="key-generation.html">Sleutels Genereren</a>
+    <a href="aes.html">AES</a>
+    <a class="active" href="rsa.html">RSA</a>
+    <a href="hash.html">Hashing</a>
+    <a href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>RSA Sleutelversleuteling (Hybride Encryptie)</h2>
+
+    <div class="alert alert-info">
+        <strong>Wat is hybride encryptie?</strong>
+        RSA is te traag voor grote data. In de praktijk versleutel je de data met AES, en de AES-sleutel met RSA.
+        Alice versleutelt de AES-sleutel met Bob's publieke sleutel. Bob ontsleutelt met zijn privésleutel.
+    </div>
+
+    <div data-tabs="rsa-tabs">
+        <div class="tabs">
+            <button class="active">AES-sleutel Versleutelen</button>
+            <button>AES-sleutel Ontsleutelen</button>
+        </div>
+
+        <div class="tab-panel active">
+            <div class="card">
+                <label>AES-sleutel (Base64)</label>
+                <input id="encAesKey" type="text" class="monospace" placeholder="Base64 AES-sleutel..." />
+                <label>RSA Publieke Sleutel (PEM)</label>
+                <textarea id="encPublicPem" class="monospace" rows="8"
+                    placeholder="-----BEGIN RSA PUBLIC KEY-----&#10;...&#10;-----END RSA PUBLIC KEY-----"></textarea>
+                <button id="rsaEncBtn" class="btn-primary" onclick="rsaEncrypt()">Versleutel AES-sleutel</button>
+                <div id="rsaEncError" class="alert alert-error" style="display:none"></div>
+                <div id="rsaEncResultCard" style="display:none">
+                    <div class="result-box">
+                        <label>Versleutelde AES-sleutel (Base64)</label>
+                        <textarea id="rsaEncResult" class="monospace" rows="4" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('rsaEncResult')">Kopieer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-panel">
+            <div class="card">
+                <label>Versleutelde AES-sleutel (Base64)</label>
+                <input id="decEncryptedKey" type="text" class="monospace" placeholder="Base64 versleutelde sleutel..." />
+                <div class="alert alert-error">Deel NOOIT je privésleutel!</div>
+                <label>RSA Privésleutel (PEM)</label>
+                <textarea id="decPrivatePem" class="monospace" rows="12"
+                    placeholder="-----BEGIN RSA PRIVATE KEY-----&#10;...&#10;-----END RSA PRIVATE KEY-----"></textarea>
+                <button id="rsaDecBtn" class="btn-primary" onclick="rsaDecrypt()">Ontsleutel AES-sleutel</button>
+                <div id="rsaDecError" class="alert alert-error" style="display:none"></div>
+                <div id="rsaDecResultCard" style="display:none">
+                    <div class="result-box">
+                        <label>Ontsleutelde AES-sleutel (Base64)</label>
+                        <textarea id="rsaDecResult" class="monospace" rows="2" readonly></textarea>
+                        <button class="btn-outline" onclick="copyText('rsaDecResult')">Kopieer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <small>&copy; 2026 EncryptieTool</small>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/site.js"></script>
+<script src="js/rsa.js"></script>
+</body>
+</html>

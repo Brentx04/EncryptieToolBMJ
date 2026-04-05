@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EncryptieTool</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">EncryptieTool</a>
+    <a class="active" href="index.html">Home</a>
+    <a href="key-generation.html">Sleutels Genereren</a>
+    <a href="aes.html">AES</a>
+    <a href="rsa.html">RSA</a>
+    <a href="hash.html">Hashing</a>
+    <a href="signature.html">Handtekening</a>
+</nav>
+
+<div class="container">
+    <h2>Welkom bij EncryptieTool</h2>
+
+    <p>Een web applicatie voor cryptografische operaties met een ASP.NET Core REST API als backend.</p>
+
+    <div class="grid-cards">
+        <div class="card">
+            <h3>Sleutels Genereren</h3>
+            <p>Genereer AES-sleutels (128/192/256 bits) en RSA-sleutelparen (1024/2048/4096 bits).</p>
+            <a href="key-generation.html"><button class="btn-primary">Ga naar sleutels</button></a>
+        </div>
+        <div class="card">
+            <h3>AES Versleuteling</h3>
+            <p>Versleutel en ontsleutel tekst of bestanden met AES (CBC, ECB, GCM).</p>
+            <a href="aes.html"><button class="btn-primary">AES Encryptie</button></a>
+        </div>
+        <div class="card">
+            <h3>RSA Versleuteling</h3>
+            <p>Versleutel AES-sleutels met RSA (hybride encryptie) voor veilige sleuteluitwisseling.</p>
+            <a href="rsa.html"><button class="btn-primary">RSA Encryptie</button></a>
+        </div>
+        <div class="card">
+            <h3>Hashing</h3>
+            <p>Bereken hashes (MD5, SHA-1, SHA-256/384/512) van tekst of bestanden. Verifieer met HMAC.</p>
+            <a href="hash.html"><button class="btn-primary">Hashing</button></a>
+        </div>
+        <div class="card">
+            <h3>Digitale Handtekening</h3>
+            <p>Onderteken data met een RSA-privésleutel en verifieer handtekeningen met de publieke sleutel.</p>
+            <a href="signature.html"><button class="btn-primary">Handtekeningen</button></a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <small>&copy; 2026 EncryptieTool</small>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>
